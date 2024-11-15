@@ -9,6 +9,7 @@
 
 Kubernetes needs a DNS record for the API server.
 Thus you will need pick an IP address for the API server, and create a DNS record for it.
+**IMPORTANT**: THIS IP ADDRESS MUST BE UNUSED ON YOUR NETWORK. USE A STATIC IP ADDRESS IF POSSIBLE.
 That same IP address will be used for the Virtual IP of the control plane, and needs to be set in the `control-plane.yaml` file.
 
 ## Configuration Generation
@@ -44,4 +45,5 @@ Recommended VM Settings in Proxmox:
 - Disk/Cache: Write Through
 
 Note that for secure boot, you may need to manually add the key to the VM.
+
 

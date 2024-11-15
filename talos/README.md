@@ -26,4 +26,13 @@ Recommended VM Specs:
 
 ISO can be found here: https://factory.talos.dev/?arch=amd64&cmdline-set=true&extensions=-&extensions=siderolabs%2Fqemu-guest-agent&platform=metal&secureboot=true&target=metal&version=1.8.2
 
+Recommended VM Settings in Proxmox:
+
+- QEMU Guest Agent: Enabled
+- BIOS: OVMF (UEFI)
+- Pre-Enroll keys: Disabled
+- Add TPM: Enabled
+- Disk/Discard: Enabled
+- Disk/Cache: Write Through
+
 Note that for secure boot, you may need to manually add the key to the VM.

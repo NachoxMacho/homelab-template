@@ -23,3 +23,7 @@ Recommended VM Specs:
 - CPU: 2 Cores
 - Memory: 8GB
 - Disk: 16GB
+
+ISO can be found here: https://factory.talos.dev/?arch=amd64&cmdline-set=true&extensions=-&extensions=siderolabs%2Fqemu-guest-agent&platform=metal&secureboot=true&target=metal&version=1.8.2
+
+Note that for secure boot, you may need to manually add the key to the VM.

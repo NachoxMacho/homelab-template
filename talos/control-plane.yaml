@@ -1,0 +1,81 @@
+version: v1alpha1 # Indicates the schema used to decode the contents.
+persist: true
+machine:
+  # This block is needed to enable the metrics server.
+  kubelet:
+    extraArgs:
+      rotate-server-certificates: true
+  # Use this block to configure the networking of the machine.
+  network:
+    interfaces:
+      # This will select the first interface that of type VirtIO.
+      - deviceSelector:
+          busPath: "0*"
+          driver: virtio_net
+        # Uncomment the following block to set a static IP address. Leave commented if you want DHCP.
+        # addresses:
+        #   - ip: 10.1.0.2
+        dhcp: true
+        # This is the Virtual IP Address that will be used for the Kubernetes API Server.
+        # Make sure that the IP address is unused on your network, and is mapped to the DNS record of your API server.
+        vip:
+          ip: 10.1.0.10 # Specifies the IP address to be used.
+  features:
+      rbac: true # Enable role-based access control (RBAC).
+      stableHostname: true # Enable stable default hostname.
+      apidCheckExtKeyUsage: true # Enable checks for extended key usage of client certificates in apid.
+      diskQuotaSupport: true # Enable XFS project quota support for EPHEMERAL partition and user disks.
+      # KubePrism - local proxy/load balancer on defined port that will distribute
+      kubePrism:
+        # Do NOT disable this, will fuck with metallb and cilium
+        enabled: true # Enable KubePrism support - will start local load balancing proxy.
+        port: 7445 # KubePrism port.
+      # Configures host DNS caching resolver.
+      hostDNS:
+        enabled: true # Enable host DNS caching resolver.
+  install:
+    # The following image is create from the talos factory website, and provides the following features:
+    #   - Secure boot support
+    #   - QEMU Guest Agent support
+    image: factory.talos.dev/installer-secureboot/ce4c980550dd2ab1b17bbf2b08801c7eb59418eafe8f279833297925d67c7515:v1.8.2
+    wipe: true
+  time:
+    # If you prefer different time sources, you can change the NTP servers here.
+    servers:
+      - time.cloudflare.com
+      - 2.pool.ntp.org
+  sysctls:
+    # This block will disable source routed packets on all interfaces.
+    # This is for CIS benchmark compliance.
+    net.ipv4.conf.all.accept_source_route: "0"
+    net.ipv4.conf.default.accept_source_route: "0"
+    net.ipv6.conf.all.accept_source_route: "0"
+    net.ipv6.conf.default.accept_source_route: "0"
+cluster:
+  # Enable this block once you have an OIDC provider available
+  # apiServer:
+  #   extraArgs:
+  #     oidc-client-id: kube-apiserver
+  #     oidc-groups-claim: groups
+  #     oidc-issuer-url: https://authentik.robowens.dev/application/o/kubernetes/
+  network:
+    cni:
+      name: none # Name of CNI to use. This example uses "none" as we deploy cilium separately.
+  controllerManager:
+    extraArgs:
+      bind-address: 0.0.0.0 # This is used to scrape metrics from the controller manager. Disable if you don't need it.
+  proxy:
+    disabled: false
+    extraArgs:
+      metrics-bind-address: 0.0.0.0:10249 # This is used to scrape metrics from the proxy. Disable if you don't need it.
+  scheduler:
+    extraArgs:
+      bind-address: 0.0.0.0 # This is used to scrape metrics from the scheduler. Disable if you don't need it.
+  etcd:
+    extraArgs:
+      listen-metrics-urls: http://0.0.0.0:2381 # This is used to scrape metrics from etcd. Disable if you don't need it.
+  # Any extra manifests you want to deploy to the cluster initially go here.
+  # We currently only use one manifest which will deploy a cert approver for kubelet serving certificates.
+  extraManifests:
+    - https://raw.githubusercontent.com/alex1989hu/kubelet-serving-cert-approver/main/deploy/standalone-install.yaml
+

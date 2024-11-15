@@ -1,0 +1,45 @@
+version: v1alpha1 # Indicates the schema used to decode the contents.
+persist: true
+machine:
+  # This block is needed to enable the metrics server.
+  kubelet:
+    extraArgs:
+      rotate-server-certificates: true
+  # Use this block to configure the networking of the machine.
+  network:
+    interfaces:
+      # This will select the first interface that of type VirtIO.
+      - deviceSelector:
+          busPath: "0*"
+          driver: virtio_net
+        # Uncomment the following block to set a static IP address. Leave commented if you want DHCP.
+        # addresses:
+        #   - ip: 10.1.0.2
+        dhcp: true
+        # Note that the Virtual IP Address is not specified on the worker node, and is instead configured on the control plane.
+        # vip:
+        #   ip: 10.1.0.10 # Specifies the IP address to be used.
+  install:
+    # The following image is create from the talos factory website, and provides the following features:
+    #   - Secure boot support
+    #   - QEMU Guest Agent support
+    image: factory.talos.dev/installer-secureboot/ce4c980550dd2ab1b17bbf2b08801c7eb59418eafe8f279833297925d67c7515:v1.8.2
+    wipe: true
+  # Work in progress, CIS benchmark compliance for system disk encryption.
+  # systemDiskEncryption:
+  #   ephemeral:
+  #     provider: luks2
+  #     keys:
+  #       - slot: 0
+  #         tpm: {}
+  #   state:
+  #     provider: luks2
+  #     keys:
+  #       - slot: 0
+  #         tpm: {}
+  time:
+    # If you prefer different time sources, you can change the NTP servers here.
+    servers:
+      - time.cloudflare.com
+      - 2.pool.ntp.org
+

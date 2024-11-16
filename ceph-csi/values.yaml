@@ -1,0 +1,63 @@
+---
+csiConfig:
+  - clusterID: "<cluster-id>"
+    monitors:
+      - "<proxmox-ceph-monitor-ip>"
+
+selinuxMount: false
+
+nodeplugin:
+  registrar:
+    resources:
+      requests:
+        cpu: 25m
+        memory: 20Mi
+      # limits:
+      #   memory: 50Mi
+  plugin:
+    resources:
+      requests:
+        cpu: 25m
+        memory: 20Mi
+      # limits:
+      #   memory: 50Mi
+
+provisioner:
+  provisioner:
+    resources:
+      requests:
+        cpu: 25m
+        memory: 20Mi
+      # limits:
+      #   memory: 50Mi
+  resizer:
+    resources:
+      requests:
+        cpu: 25m
+        memory: 20Mi
+      # limits:
+      #   memory: 50Mi
+  snapshotter:
+    resources:
+      requests:
+        cpu: 25m
+        memory: 20Mi
+      # limits:
+      #   memory: 50Mi
+
+secret:
+  create: false
+  name: csi-cephfs-secret
+
+storageClass:
+  create: true
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+  clusterID: "<cluster-id>"
+  fsName: <fs-name>
+  pool: <fs-data-name>
+  provisionerSecretNamespace: <ceph-namespace>
+  controllerExpandSecretNamespace: <ceph-namespace>
+  nodeStageSecretNamespace: <ceph-namespace>
+
+

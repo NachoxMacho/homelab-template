@@ -97,23 +97,7 @@ Once you see the following line appear in the talos VM logs, you can proceed to 
 <insert line about bootstrapping here>
 ```
 
-You can then run the following command to bootstrap etcd:
-
-```bash
-export TALOSCONFIG=tmp/talosconfig
-talosctl config endpoint <IP-of-control-plane-VM>
-talosctl bootstrap --nodes <IP-of-control-plane-VM>
-```
-
-or for those on Windows:
-
-```powershell
-$env:TALOSCONFIG="tmp/talosconfig"
-talosctl config endpoint <IP-of-control-plane-VM>
-talosctl bootstrap --nodes <IP-of-control-plane-VM>
-```
-
-## Adding extra nodes
+### Configuring the talosctl client
 
 Before you run any other talosctl commands against your cluster in the future, you need to config the talosctl client to use the correct configuration.
 You only need to do this once per bash/powershell session.
@@ -130,7 +114,17 @@ $env:TALOSCONFIG="tmp/talosconfig"
 talosctl config endpoint <IP-of-control-plane-VM>
 ```
 
-Once you have configured the talosctl client, you can use the following commands to add additional nodes to the cluster based on what type of node you want to add.
+## Bootstrapping etcd
+
+You can then run the following command to bootstrap etcd:
+
+```bash
+talosctl bootstrap --nodes <IP-of-control-plane-VM>
+```
+
+## Adding extra nodes
+
+Once you have [configured the talosctl client](#Configuring-the-talosctl-client), you can use the following commands to add additional nodes to the cluster based on what type of node you want to add.
 
 ### Adding a control plane node
 
@@ -172,6 +166,7 @@ talosctl kubeconfig --merge
 ## IF YOU FUCKED UP
 
 If you messed up a node at any point, you can use the following command to reset the node.
+Make sure to [configure the talosctl client](#Configuring-the-talosctl-client) before running this command.
 
 ```bash
 talosctl reset --nodes <IP-of-control-plane-VM>

@@ -84,7 +84,8 @@ If you are using static IPs, refer the `control-plane.yaml` and `worker.yaml` fi
 
 [Talos instructions available here](https://www.talos.dev/v1.8/talos-guides/install/virtualized-platforms/proxmox/#create-control-plane-node)
 
-Run the following command to apply the configuration file to the control plane VM. Start with a single node at first, and once you have completed this section you can add additional nodes.
+Run the following command to apply the configuration file to the control plane VM.
+Start with a single control plane node at first, and once you have completed bootstrapping the cluster you can add additional nodes.
 
 ```bash
 talosctl apply-config --nodes <IP-of-control-plane-VM> --file tmp/control-plane.yaml --insecure

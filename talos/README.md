@@ -137,7 +137,7 @@ Once you have configured the talosctl client, you can use the following commands
 ### Adding a control plane node
 
 ```bash
-talosctl apply-config --nodes <IP-of-control-plane-VM> --file tmp/control-plane.yaml --insecure
+talosctl apply-config --nodes <IP-of-control-plane-VM> --file tmp/controlplane.yaml --insecure
 ```
 
 ### Adding a worker node
@@ -153,7 +153,7 @@ If you need to update a node's configuration, you can use the following command 
 ### Updating a control plane node
 
 ```bash
-talosctl apply-config --nodes <IP-of-control-plane-VM> --file tmp/control-plane.yaml
+talosctl apply-config --nodes <IP-of-control-plane-VM> --file tmp/controlplane.yaml
 ```
 
 ### Updating a worker node

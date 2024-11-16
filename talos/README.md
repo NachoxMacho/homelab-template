@@ -170,3 +170,11 @@ You can retrieve the kubeconfig file for the cluster using the following command
 talosctl kubeconfig --merge
 ```
 
+
+## IF YOU FUCKED UP
+
+If you messed up a node at any point, you can use the following command to reset the node.
+
+```bash
+talosctl reset --nodes <IP-of-control-plane-VM>
+```

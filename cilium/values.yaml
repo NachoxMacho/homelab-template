@@ -1,0 +1,125 @@
+resources:
+#   limits:
+#     cpu: 4000m
+#     memory: 4Gi
+  requests:
+    cpu: 50m
+    memory: 256Mi
+cgroup:
+  autoMount:
+    enabled: false
+    # resources:
+    #   requests:
+    #     memory: 1Gi
+    #     cpu: 1
+    #   limits:
+    #     memory: 1Gi
+    #     cpu: 1
+  hostRoot: /sys/fs/cgroup
+hubble:
+  enabled: true
+  metrics:
+    enabled:
+      - dns:query;ignoreAAAA
+      - drop
+      - tcp
+      - flow
+      - icmp
+      - http
+    # serviceMonitor:
+    #   enabled: true
+    # dashboards:
+    #   enabled: true
+    #   annotations:
+    #     grafana.robowens.dev/folder: hubble
+  # relay:
+  #   enabled: true
+  #   prometheus:
+  #     enabled: true
+  #     serviceMonitor:
+  #       enabled: true
+  ui:
+    enabled: true
+    frontend:
+      server:
+        ipv6:
+          enabled: false
+      resources:
+        requests:
+          cpu: 10m
+          memory: 100Mi
+    backend:
+      resources:
+        requests:
+          cpu: 10m
+          memory: 100Mi
+
+    ingress:
+      annotations:
+        acme.cert-manager.io/dns01-edit-in-place: "true"
+        cert-manager.io/cluster-issuer: prod-issuer
+      className: nginx
+      enabled: true
+      hosts:
+      - hubble.robowens.dev
+      labels: {}
+      tls:
+      - hosts:
+        - hubble.robowens.dev
+        secretName: hubble-certificate
+    nodeSelector:
+      kubernetes.io/os: linux
+    replicas: 1
+    service:
+      annotations: {}
+      nodePort: 31235
+      type: ClusterIP
+ipam:
+  mode: kubernetes
+cluster:
+  name: production
+operator:
+  replicas: 1
+  # prometheus:
+  #   enabled: true
+  #   serviceMonitor:
+  #     enabled: true
+  # dashboards:
+  #   enabled: true
+  #   annotations:
+  #     grafana.robowens.dev/folder: cilium
+securityContext:
+  capabilities:
+    ciliumAgent:
+    - CHOWN
+    - KILL
+    - NET_ADMIN
+    - NET_RAW
+    - IPC_LOCK
+    - SYS_ADMIN
+    - SYS_RESOURCE
+    - DAC_OVERRIDE
+    - FOWNER
+    - SETGID
+    - SETUID
+    cleanCiliumState:
+    - NET_ADMIN
+    - SYS_ADMIN
+    - SYS_RESOURCE
+# prometheus:
+#   enabled: true
+#   serviceMonitor:
+#     enabled: true
+# dashboards:
+#   enabled: true
+#   annotations:
+#     grafana.robowens.dev/folder: cilium
+# envoy:
+#   prometheus:
+#     enabled: true
+#     serviceMonitor:
+#       enabled: true
+kubeProxyReplacement: false
+# k8sServiceHost: "talos.kubernetes.justnacho.com"
+k8sServicePort: "7445"
+

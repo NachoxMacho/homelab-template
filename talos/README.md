@@ -71,6 +71,8 @@ You will know you have successfully enrolled the key if you see the following li
 SECUREBOOT: True
 ```
 
+If you do not see this line, you need to manually enroll the key, see the previous section for instructions.
+
 You will need a minimum of 2 VMs, one for the control plane, and one for the worker.
 
 It's recommended to run at least 3 VMs for the contol plane, and you can run as many as needed for worker nodes.
@@ -94,6 +96,11 @@ Once you see the following line appear in the talos VM logs, you can proceed to 
 <insert line about bootstrapping here>
 ```
 
+You can then run the following command to bootstrap etcd:
+
+```bash
+talosctl bootstrap --nodes <IP-of-control-plane-VM>
+```
 
 ## Adding extra nodes
 

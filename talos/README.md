@@ -89,7 +89,7 @@ If you are using static IPs, refer the `control-plane.yaml` and `worker.yaml` fi
 Run the following command to apply the configuration file to the control plane VM. Start with a single node at first, and once you have completed this section you can add additional nodes.
 
 ```bash
-talosctl apply-config --nodes <IP-of-control-plane-VM> --config tmp/control-plane.yaml --insecure
+talosctl apply-config --nodes <IP-of-control-plane-VM> --file tmp/control-plane.yaml --insecure
 ```
 
 This will reboot the VM and install the talos image to disk, as well as start the kubernetes installation process.
@@ -137,13 +137,13 @@ Once you have configured the talosctl client, you can use the following commands
 ### Adding a control plane node
 
 ```bash
-talosctl apply-config --nodes <IP-of-control-plane-VM> --config tmp/control-plane.yaml --insecure
+talosctl apply-config --nodes <IP-of-control-plane-VM> --file tmp/control-plane.yaml --insecure
 ```
 
 ### Adding a worker node
 
 ```bash
-talosctl apply-config --nodes <IP-of-worker-VM> --config tmp/worker.yaml --insecure
+talosctl apply-config --nodes <IP-of-worker-VM> --file tmp/worker.yaml --insecure
 ```
 
 ## Updating a node
@@ -153,11 +153,20 @@ If you need to update a node's configuration, you can use the following command 
 ### Updating a control plane node
 
 ```bash
-talosctl apply-config --nodes <IP-of-control-plane-VM> --config tmp/control-plane.yaml
+talosctl apply-config --nodes <IP-of-control-plane-VM> --file tmp/control-plane.yaml
 ```
 
 ### Updating a worker node
 
 ```bash
-talosctl apply-config --nodes <IP-of-worker-VM> --config tmp/worker.yaml
+talosctl apply-config --nodes <IP-of-worker-VM> --file tmp/worker.yaml
 ```
+
+## Retrieving the kubeconfig file
+
+You can retrieve the kubeconfig file for the cluster using the following command.
+
+```bash
+talosctl kubeconfig --merge
+```
+

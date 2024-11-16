@@ -9,13 +9,12 @@
 
 Kubernetes needs a DNS record for the API server.
 Thus you will need pick an IP address for the API server, and create a DNS record for it.
-**IMPORTANT**: THIS IP ADDRESS MUST BE UNUSED ON YOUR NETWORK. USE A STATIC IP ADDRESS IF POSSIBLE.
+**IMPORTANT**: THIS IP ADDRESS MUST BE UNUSED ON YOUR NETWORK AND NOT MATCH ANY OF THE VIRTUAL MACHINES YOU WILL BE BUILDING. USE A STATIC IP ADDRESS IF POSSIBLE.
 That same IP address will be used for the Virtual IP of the control plane, and needs to be set in the `control-plane.yaml` file.
 
 ## Configuration Generation
 
 Review the `control-plane.yaml` and `worker.yaml` files, and make any customizations you wish.
-
 
 ```bash
 # Generate secrets for the cluster, store this file somewhere safe.
@@ -23,7 +22,6 @@ talosctl gen secrets --output-file secrets.yaml
 # Generates the full cluster configuration files.
 talosctl gen config <name-of-cluster> <DNS-record-for-API-server> --config-patch-control-plane @talos/control-plane.yaml --config-patch-worker @talos/worker.yaml --with-secrets secrets.yaml --output-dir tmp
 ```
-
 
 ## Setup Virtual Machines
 

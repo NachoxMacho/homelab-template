@@ -8,13 +8,6 @@ resources:
 cgroup:
   autoMount:
     enabled: false
-    # resources:
-    #   requests:
-    #     memory: 1Gi
-    #     cpu: 1
-    #   limits:
-    #     memory: 1Gi
-    #     cpu: 1
   hostRoot: /sys/fs/cgroup
 hubble:
   enabled: true
@@ -32,8 +25,8 @@ hubble:
     #   enabled: true
     #   annotations:
     #     grafana.robowens.dev/folder: hubble
-  # relay:
-  #   enabled: true
+  relay:
+    enabled: true
   #   prometheus:
   #     enabled: true
   #     serviceMonitor:

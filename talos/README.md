@@ -99,12 +99,22 @@ Once you see the following line appear in the talos VM logs, you can proceed to 
 You can then run the following command to bootstrap etcd:
 
 ```bash
+export TALOSCONFIG=tmp/talosconfig
+talosctl config endpoint <IP-of-control-plane-VM>
+talosctl bootstrap --nodes <IP-of-control-plane-VM>
+```
+
+or for those on Windows:
+
+```powershell
+$env:TALOSCONFIG="tmp/talosconfig"
+talosctl config endpoint <IP-of-control-plane-VM>
 talosctl bootstrap --nodes <IP-of-control-plane-VM>
 ```
 
 ## Adding extra nodes
 
-Before you run any other talosctl commands against your cluster, you need to config the talosctl client to use the correct configuration.
+Before you run any other talosctl commands against your cluster in the future, you need to config the talosctl client to use the correct configuration.
 
 ```bash
 export TALOSCONFIG=tmp/talosconfig

@@ -9,7 +9,9 @@
 
 Kubernetes needs a DNS record for the API server.
 Thus you will need pick an IP address for the API server, and create a DNS record for it.
+
 **IMPORTANT**: THIS IP ADDRESS MUST BE UNUSED ON YOUR NETWORK AND NOT MATCH ANY OF THE VIRTUAL MACHINES YOU WILL BE BUILDING. USE A STATIC IP ADDRESS IF POSSIBLE.
+
 That same IP address will be used for the Virtual IP of the control plane, and needs to be set in the `control-plane.yaml` file.
 
 ## Configuration Generation
@@ -95,7 +97,7 @@ This will reboot the VM and install the talos image to disk, as well as start th
 Once you see the following line appear in the talos VM logs, you can proceed to bootstrapping etcd.
 
 ```
-<insert line about bootstrapping here>
+<etcd is waiting to join the cluster, if this node is the first node in the cluster please run `talosctl bootstrap` against one of the following IPs>
 ```
 
 ### Configuring the talosctl client

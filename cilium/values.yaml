@@ -11,14 +11,14 @@ cgroup:
   hostRoot: /sys/fs/cgroup
 hubble:
   enabled: true
-  metrics:
-    enabled:
-      - dns:query;ignoreAAAA
-      - drop
-      - tcp
-      - flow
-      - icmp
-      - http
+  # metrics:
+  #   enabled:
+  #     - dns:query;ignoreAAAA
+  #     - drop
+  #     - tcp
+  #     - flow
+  #     - icmp
+  #     - http
     # serviceMonitor:
     #   enabled: true
     # dashboards:

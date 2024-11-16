@@ -21,7 +21,7 @@ Review the `control-plane.yaml` and `worker.yaml` files, and make any customizat
 # Generate secrets for the cluster, store this file somewhere safe.
 talosctl gen secrets --output-file secrets.yaml
 # Generates the full cluster configuration files.
-talosctl gen config <name-of-cluster> <DNS-record-for-API-server> --config-patch-control-plane @talos/control-plane.yaml --config-patch-worker @talos/worker.yaml --with-secrets secrets.yaml --output tmp
+talosctl gen config <name-of-cluster> <DNS-record-for-API-server> --config-patch-control-plane @talos/control-plane.yaml --config-patch-worker @talos/worker.yaml --with-secrets secrets.yaml --output-dir tmp
 ```
 
 
@@ -74,3 +74,40 @@ SECUREBOOT: True
 You will need a minimum of 2 VMs, one for the control plane, and one for the worker.
 
 It's recommended to run at least 3 VMs for the contol plane, and you can run as many as needed for worker nodes.
+
+Once both VMs are running in maintenance mode, you can proceed to the next step to bootstrap your cluster.
+
+## Bootstrapping the cluster
+
+[Talos instructions available here](https://www.talos.dev/v1.8/talos-guides/install/virtualized-platforms/proxmox/#create-control-plane-node)
+
+Run the following command to apply the configuration file to the control plane VM. Start with a single node at first, and once you have completed this section you can add additional nodes.
+
+```bash
+talosctl apply-config --nodes <IP-of-control-plane-VM> --config tmp/control-plane.yaml --insecure
+```
+
+This will reboot the VM and install the talos image to disk, as well as start the kubernetes installation process.
+Once you see the following line appear in the talos VM logs, you can proceed to bootstrapping etcd.
+
+```
+<insert line about bootstrapping here>
+```
+
+
+## Adding extra nodes
+
+Before you run any other talosctl commands against your cluster, you need to config the talosctl client to use the correct configuration.
+
+```bash
+export TALOSCONFIG=tmp/talosconfig
+talosctl config endpoint <IP-of-control-plane-VM>
+```
+
+or for those on Windows:
+
+```powershell
+$env:TALOSCONFIG="tmp/talosconfig"
+talosctl config endpoint <IP-of-control-plane-VM>
+```
+

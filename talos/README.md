@@ -94,10 +94,10 @@ talosctl apply-config --nodes <IP-of-control-plane-VM> --file tmp/control-plane.
 ```
 
 This will reboot the VM and install the talos image to disk, as well as start the kubernetes installation process.
-Once you see the following line appear in the talos VM logs, you can proceed to bootstrapping etcd.
+Once you see the following line appear in the talos VM logs, you can proceed to configuring the talosctl client and bootstrapping etcd.
 
 ```
-<etcd is waiting to join the cluster, if this node is the first node in the cluster please run `talosctl bootstrap` against one of the following IPs>
+etcd is waiting to join the cluster, if this node is the first node in the cluster please run `talosctl bootstrap` against one of the following IPs
 ```
 
 ### Configuring the talosctl client

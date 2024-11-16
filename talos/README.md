@@ -118,6 +118,7 @@ talosctl bootstrap --nodes <IP-of-control-plane-VM>
 ## Adding extra nodes
 
 Before you run any other talosctl commands against your cluster in the future, you need to config the talosctl client to use the correct configuration.
+You only need to do this once per bash/powershell session.
 
 ```bash
 export TALOSCONFIG=tmp/talosconfig
@@ -131,3 +132,32 @@ $env:TALOSCONFIG="tmp/talosconfig"
 talosctl config endpoint <IP-of-control-plane-VM>
 ```
 
+Once you have configured the talosctl client, you can use the following commands to add additional nodes to the cluster based on what type of node you want to add.
+
+### Adding a control plane node
+
+```bash
+talosctl apply-config --nodes <IP-of-control-plane-VM> --config tmp/control-plane.yaml --insecure
+```
+
+### Adding a worker node
+
+```bash
+talosctl apply-config --nodes <IP-of-worker-VM> --config tmp/worker.yaml --insecure
+```
+
+## Updating a node
+
+If you need to update a node's configuration, you can use the following command based on the type of node you want to update.
+
+### Updating a control plane node
+
+```bash
+talosctl apply-config --nodes <IP-of-control-plane-VM> --config tmp/control-plane.yaml
+```
+
+### Updating a worker node
+
+```bash
+talosctl apply-config --nodes <IP-of-worker-VM> --config tmp/worker.yaml
+```

@@ -90,7 +90,7 @@ Run the following command to apply the configuration file to the control plane V
 Start with a single control plane node at first, and once you have completed bootstrapping the cluster you can add additional nodes.
 
 ```bash
-talosctl apply-config --nodes <IP-of-control-plane-VM> --file tmp/control-plane.yaml --insecure
+talosctl apply-config --nodes <IP-of-control-plane-VM> --file tmp/controlplane.yaml --insecure
 ```
 
 This will reboot the VM and install the talos image to disk, as well as start the kubernetes installation process.
@@ -126,6 +126,49 @@ talosctl config nodes <IP-of-control-plane-VM>
 talosctl bootstrap
 ```
 
+## Retrieving the kubeconfig file
+
+You can retrieve the kubeconfig file for the cluster using the following command.
+
+```bash
+talosctl kubeconfig --merge
+```
+
+You can then verify that the cluster is running by running `kubectl get pods -A`.
+You should see a list of pods running in the `kube-system` namespace, like the following:
+
+```bash
+$ kubectl get pods -A
+NAMESPACE                       NAME                                            READY   STATUS    RESTARTS       AGE
+kube-system                     coredns-68d75fd545-98clg                        0/1     Pending   0              117s
+kube-system                     coredns-68d75fd545-p7v44                        0/1     Pending   0              117s
+kube-system                     kube-controller-manager-c1-trueflame            1/1     Running   0              48s
+kube-system                     kube-proxy-9mpzg                                1/1     Running   0              102s
+kube-system                     kube-scheduler-c1-trueflame                     1/1     Running   1 (2m7s ago)   42s
+kubelet-serving-cert-approver   kubelet-serving-cert-approver-f6995d4dc-qwts7   0/1     Pending   0              117s
+```
+
+## Add a worker node
+
+Now that you have a control plane node, you can add your first worker node to run the kubelet cert approver.
+
+```bash
+talosctl apply-config --nodes <IP-of-worker-VM> --file tmp/worker.yaml --insecure
+```
+
+## Adding Cilium CNI
+
+Cilium is a CNI that provides networking for Kubernetes.
+You can add Cilium to your cluster by running the following command.
+This is needed to allow your nodes to communicate with each other.
+
+```bash
+helm repo add cilium https://helm.cilium.io/
+helm repo update
+helm upgrade cilium cilium/cilium --namespace kube-system --values cilium/values.yaml --install
+```
+
+
 ## Adding extra nodes
 
 Once you have [configured the talosctl client](#Configuring-the-talosctl-client), you can use the following commands to add additional nodes to the cluster based on what type of node you want to add.
@@ -158,13 +201,6 @@ talosctl apply-config --nodes <IP-of-control-plane-VM> --file tmp/controlplane.y
 talosctl apply-config --nodes <IP-of-worker-VM> --file tmp/worker.yaml
 ```
 
-## Retrieving the kubeconfig file
-
-You can retrieve the kubeconfig file for the cluster using the following command.
-
-```bash
-talosctl kubeconfig --merge
-```
 
 
 ## IF YOU FUCKED UP

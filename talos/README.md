@@ -122,7 +122,8 @@ talosctl config endpoint <IP-of-control-plane-VM>
 You can then run the following command to bootstrap etcd:
 
 ```bash
-talosctl bootstrap --nodes <IP-of-control-plane-VM>
+talosctl config nodes <IP-of-control-plane-VM>
+talosctl bootstrap
 ```
 
 ## Adding extra nodes

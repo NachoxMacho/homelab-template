@@ -74,10 +74,13 @@ SECUREBOOT: True
 If you do not see this line, you need to manually enroll the key, see the previous section for instructions.
 
 You will need a minimum of 2 VMs, one for the control plane, and one for the worker.
-
 It's recommended to run at least 3 VMs for the contol plane, and you can run as many as needed for worker nodes.
-
 Once both VMs are running in maintenance mode, you can proceed to the next step to bootstrap your cluster.
+
+This is when if you are using DHCP for node IPS, you can make sure that the IPs are assigned to the VMs.
+They will show on the Talos overview screen in the top right by IP address, if the IPs are not correct you will need to modify the DHCP leases.
+
+If you are using static IPs, refer the `control-plane.yaml` and `worker.yaml` files for setting the IPs.
 
 ## Bootstrapping the cluster
 

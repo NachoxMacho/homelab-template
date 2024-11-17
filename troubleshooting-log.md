@@ -12,12 +12,12 @@ This causes a lot of pod restarts, and instability in the cluster.
 - Prometheus Query for etcd leader elections per day: `changes(etcd_server_leader_changes_seen_total{job=~".*etcd.*", job="kube-etcd"}[1d])`
   - Main node (node with vip assigned to it): ~1000 leader elections per day
   - Other control plane nodes: ~300 leader elections per day
-  - ![Graph showing etcd leader elections per day](./images/2024-11-17-111954_1698x1177_scrot.png "etcd leader elections per day")
+  - ![Graph showing etcd leader elections per day](./images/2024-11-17-leader-elections-per-day.png "etcd leader elections per day")
 - Any pod that interacted with the kubernetes API server or had HA through etcd would be restarted at least once a day, usually once an hour.
   - Pod logs would indicate that the pod had lost the leader election, but it would be the only replica of the pod.
   - Most notable were the cilium-operator pod and kyverno *-controller pods, reaching up to 5 and 25 restarts per hour respectively.
   - Prometheus Query for pod restarts per hour: `(sum(increase(kube_pod_container_status_restarts_total[1h])) by (container)) > 0`
-  - ![Graph showing pod restarts per hour](./images/2024-11-17-111825_1702x414_scrot.png"Pod restarts per hour")
+  - ![Graph showing pod restarts per hour](./images/2024-11-17-pod-restarts-troubleshooting.png "Pod restarts per hour")
 
 ### Diagnosis
 
@@ -45,5 +45,5 @@ I had previously started to move my kubernetes nodes off of ceph since I didn't 
 After watching the etcd commit latency graph I saw all the other nodes come down to under 50ms of commit latency, more than reasonable for ceph.
 Pods also stopped restarting due to leader election loss, and the total leader elections count per day started to drop.
 
-![Graph showing commit latency dropping after the change](./images/2024-11-17-111207_1696x1184_scrot.png "Commit latency graph")
+![Graph showing commit latency dropping after the change](./images/2024-11-17-etcd-commit-latency-fix.png "Commit latency graph")
 

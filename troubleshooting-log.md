@@ -12,10 +12,12 @@ This causes a lot of pod restarts, and instability in the cluster.
 - Prometheus Query for etcd leader elections per day: `changes(etcd_server_leader_changes_seen_total{job=~".*etcd.*", job="kube-etcd"}[1d])`
   - Main node (node with vip assigned to it): ~1000 leader elections per day
   - Other control plane nodes: ~300 leader elections per day
+  - ![Graph showing etcd leader elections per day](./images/2024-11-17-111954_1698x1177_scrot.png "etcd leader elections per day")
 - Any pod that interacted with the kubernetes API server or had HA through etcd would be restarted at least once a day, usually once an hour.
   - Pod logs would indicate that the pod had lost the leader election, but it would be the only replica of the pod.
   - Most notable were the cilium-operator pod and kyverno *-controller pods, reaching up to 5 and 25 restarts per hour respectively.
   - Prometheus Query for pod restarts per hour: `(sum(increase(kube_pod_container_status_restarts_total[1h])) by (container)) > 0`
+  - ![Graph showing pod restarts per hour](./images/2024-11-17-111825_1702x414_scrot.png"Pod restarts per hour")
 
 ### Diagnosis
 
@@ -29,7 +31,7 @@ I knew something was wrong with etcd specifically because this had been happenin
   - That pointed to etcd being slowed down by something consistently.
 
 First guess was to increase timeouts for etcd, however I briefly looked to see if any nodes were performing fine.
-Prometheus Query for etcd commit latency: `histogram_quantile(0.99, sum(rate(etcd_disk_backend_commit_duration_seconds_bucket{job=~".*etcd.*"}[$__rate_interval])) by (instance, le))`
+Here's the Prometheus query for etcd commit latency: `histogram_quantile(0.99, sum(rate(etcd_disk_backend_commit_duration_seconds_bucket{job=~".*etcd.*"}[$__rate_interval])) by (instance, le))`.
 I found that 4/5 of the control plane nodes were taking ~1s to complete, but one node was taking ~30ms.
 
 I started comparing the configuration of the vms in Proxmox and found that the single control plane node that was performing well was using a local disk and not on ceph.

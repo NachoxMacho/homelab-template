@@ -33,6 +33,7 @@ I knew something was wrong with etcd specifically because this had been happenin
 First guess was to increase timeouts for etcd, however I briefly looked to see if any nodes were performing fine.
 Here's the Prometheus query for etcd commit latency: `histogram_quantile(0.99, sum(rate(etcd_disk_backend_commit_duration_seconds_bucket{job=~".*etcd.*"}[$__rate_interval])) by (instance, le))`.
 I found that 4/5 of the control plane nodes were taking ~1s to complete, but one node was taking ~30ms.
+![Graph showing etcd commit latency](./images/2024-11-17-etcd-commit-latency-diagnosis.png "etcd commit latency")
 
 I started comparing the configuration of the vms in Proxmox and found that the single control plane node that was performing well was using a local disk and not on ceph.
 I had previously started to move my kubernetes nodes off of ceph since I didn't need them to be highly available themselves, the cluster itself was the high availability layer.

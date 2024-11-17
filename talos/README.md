@@ -44,6 +44,7 @@ Recommended VM Settings in Proxmox:
 - Add TPM: Enabled
 - Disk/Discard: Enabled
 - Disk/Cache: Write Through
+- Disk/Store: Local disk (not backed by ceph. [Related Problem](../troubleshooting-log.md#2024-11-14-etcd-leader-election-lost-pod-restarts))
 
 Note that for secure boot, you may need to manually add the key to the VM using the following instructions:
 

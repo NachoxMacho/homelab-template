@@ -36,6 +36,16 @@ You will need to change the following values:
 - `storageClass.controllerExpandSecretNamespace`: This is the namespace where you will install ceph.
 - `storageClass.nodeStageSecretNamespace`: This is the namespace where you will install ceph.
 
+If you are running a smaller cluster (less than 3 worker nodes), you can reduce the number of replicas for the provisioner with the following configuration:
+
+```yaml
+provisioner:
+  replicaCount: <number-of-nodes>
+```
+
+It's recommended to run multiple replicas of the provisioner to ensure that the ceph cluster is always available to create new volumes and for high availability.
+In my testing, I've found the default of 3 replicas to be sufficient for my needs.
+
 #### secret.yaml
 
 This is where you will provider the user credentials for the ceph user the csi will act as. For more information about user management in ceph, see the [ceph documentation](https://docs.ceph.com/en/latest/rados/operations/user-management/).

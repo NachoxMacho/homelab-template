@@ -5,6 +5,8 @@ This will be a guide on how to install and configure the ceph csi for kubernetes
 ## Prerequisites
 
 - A Ceph cluster running (I'm using Proxmox to run my ceph cluster)
+- A Ceph user with full permissions to the pool you want to use (I recommend creating a dedicated user and pool for the csi)
+  - For instructions on how to create a user and pool, see the [ceph documentation](https://docs.ceph.com/en/latest/rados/operations/user-management/).
 
 ## Installation
 
@@ -48,7 +50,8 @@ In my testing, I've found the default of 3 replicas to be sufficient for my need
 
 #### secret.yaml
 
-This is where you will provider the user credentials for the ceph user the csi will act as. For more information about user management in ceph, see the [ceph documentation](https://docs.ceph.com/en/latest/rados/operations/user-management/).
+This is where you will provider the user credentials for the ceph user the csi will act as.
+For more information on setting up a user and pool, see the [prerequisites section](#Prerequisites).
 
 - `data.adminID`: This is the admin ID of the ceph user you want to use.
 - `data.adminKey`: This is the admin key of the ceph user you want to use.

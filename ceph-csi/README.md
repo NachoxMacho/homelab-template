@@ -23,7 +23,7 @@ helm repo update
 ### Configuring the ceph CSI files
 
 The ceph CSI needs to be configured to use the ceph cluster you want to use.
-This is done by editing the `values.yaml` & `secret.yaml` file.
+This is done by editing the `values.yaml`, `secret.yaml`, and `namespace.yaml` file.
 
 You will need to change the following values:
 

@@ -63,7 +63,7 @@ Once you have configured the `values.yaml` and `secret.yaml` files, you can inst
 ```bash
 kubectl create namespace <ceph-namespace>
 kubectl apply -f secret.yaml -n <ceph-namespace>
-helm install ceph-csi ceph-csi/ceph-csi -n <ceph-namespace> --values values.yaml
+helm install ceph-csi ceph-csi/ceph-csi-cephfs -n <ceph-namespace> --values values.yaml
 ```
 
 Assuming everything is configured correctly you should see pods start running in the namespace you specified.

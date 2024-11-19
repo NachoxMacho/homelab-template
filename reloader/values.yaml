@@ -1,0 +1,22 @@
+reloader:
+  autoReloadAll: true
+  enableHA: true
+  readOnlyRootFilesystem: true
+  enableMetricsByNamespace: true
+  deployment:
+    replicas: 2
+    resources:
+      limits:
+        memory: 512Mi
+      requests:
+        cpu: 25m
+        memory: 256Mi
+  podDisruptionBudget:
+    enabled: true
+    minAvailable: 1
+  containerSecurityContext:
+    capabilities:
+      drop:
+        - ALL
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: true

@@ -56,6 +56,21 @@ For more information on setting up a user and pool, see the [prerequisites secti
 - `data.adminID`: This is the admin ID of the ceph user you want to use.
 - `data.adminKey`: This is the admin key of the ceph user you want to use.
 
+#### namespace.yaml
+
+This is where you will create the namespace where you will install the ceph CSI.
+
+- `<ceph-namespace>`: This is the namespace where you will install the ceph CSI.
+
+### Creating the namespace
+
+Before you can install the ceph CSI helm chart, you need to create the namespace where you will install it.
+You can do this by running the following command:
+
+```bash
+kubectl apply -f namespace.yaml
+```
+
 ### Installing the ceph CSI
 
 Once you have configured the `values.yaml` and `secret.yaml` files, you can install the ceph CSI using the following commands:

@@ -1,0 +1,47 @@
+ingress:
+  enabled: true
+  className: nginx
+  annotations: {}
+  hosts:
+    - host: git.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+serviceAccount:
+  create: true
+
+persistence:
+  enabled: true
+  create: true
+  mount: true
+  claimName: gitea-shared-storage
+  size: 10Gi
+  accessModes:
+    - ReadWriteOnce
+
+gitea:
+  admin:
+    existingSecret: gitea-admin
+
+redis-cluster:
+  enabled: true
+  usePassword: false
+  cluster:
+    nodes: 3 # default: 6
+    replicas: 0 # default: 1
+
+postgresql-ha:
+  enabled: false
+
+postgresql:
+  enabled: true
+  auth:
+    existingSecret: gitea-postgresql
+    secretKeys:
+      adminPasswordKey: postgres-password
+
+dnsConfig:
+  options:
+    - name: ndots
+      value: "1"
+

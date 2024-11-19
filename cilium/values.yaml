@@ -48,18 +48,12 @@ hubble:
           memory: 100Mi
 
     ingress:
-      annotations:
-        acme.cert-manager.io/dns01-edit-in-place: "true"
-        cert-manager.io/cluster-issuer: prod-issuer
+      annotations: {}
       className: nginx
       enabled: true
       hosts:
-      - hubble.robowens.dev
+      - hubble.example.com
       labels: {}
-      tls:
-      - hosts:
-        - hubble.robowens.dev
-        secretName: hubble-certificate
     nodeSelector:
       kubernetes.io/os: linux
     replicas: 1

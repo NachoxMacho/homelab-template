@@ -1,0 +1,39 @@
+# Uncomment the following block to enable Prometheus monitoring.
+# prometheus:
+#   serviceMonitor:
+#     enabled: true
+
+controller:
+  resources:
+    requests:
+      cpu: 10m
+      memory: 20Mi
+    # limits:
+    #   cpu: 20m
+    #   memory: 50Mi
+speaker:
+  resources:
+    requests:
+      cpu: 10m
+      memory: 20Mi
+    # limits:
+    #   memory: 100Mi
+  startupProbe:
+    failureThreshold: 30
+    periodSeconds: 10
+  frr:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 20Mi
+  reloader:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 20Mi
+  frrMetrics:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 20Mi
+

@@ -31,7 +31,7 @@ You will need to change the following values:
 #### values.yaml
 
 - `csiConfig.clusterID`: This is the cluster ID of the ceph cluster you want to use. You can find this by running `ceph status` on a ceph monitor node.
-- `csiConfig.monitors`: This is a list of the IPs your ceph monitors are reachable at. You can find this by running `ceph status` on a ceph monitor node, and looking at the `mon` field.
+- `csiConfig.monitors`: This is a list of the IPs your ceph monitors are reachable at. You can find this by running `ceph mon stat` on a ceph monitor node.
 - `storageClass.clusterID`: This is the cluster ID of the ceph cluster you want to use, same as `csiConfig.ClusterID`.
 - `storageClass.fsName`: This is the name of the ceph filesystem you want to use.
 - `storageClass.pool`: This is the name of the ceph pool you want to use.

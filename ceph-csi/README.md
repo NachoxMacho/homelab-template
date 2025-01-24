@@ -7,6 +7,7 @@ This will be a guide on how to install and configure the ceph csi for kubernetes
 - A Ceph cluster running (I'm using Proxmox to run my ceph cluster)
 - A Ceph user with full permissions to the pool you want to use (I recommend creating a dedicated user and pool for the csi)
   - For instructions on how to create a user and pool, see the [ceph documentation](https://docs.ceph.com/en/latest/rados/operations/user-management/).
+  - Optionally you can use [this link](https://devopstales.github.io/kubernetes/k8s-cephfs-storage-with-csi-driver/) to create a pool and user.
 
 ## Installation
 

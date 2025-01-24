@@ -1,14 +1,10 @@
-# Default values for mealie.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
 replicaCount: 1
 
 image:
   repository: ghcr.io/mealie-recipes/mealie
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "v1.12.0"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -48,10 +44,6 @@ ingress:
   className: nginx
   annotations: {}
   hosts:
-    # - host: dashy.kubernetes.homelab
-    #   paths:
-    #     - path: /
-    #       pathType: ImplementationSpecific
     - host: mealie.example.com
       paths:
         - path: /
@@ -94,10 +86,6 @@ volumes:
 - name: mealie-app-data
   persistentVolumeClaim:
     claimName: mealie-app-data
-# - name: foo
-#   secret:
-#     secretName: mysecret
-#     optional: false
 
 # Additional volumeMounts on the output Deployment definition.
 volumeMounts:

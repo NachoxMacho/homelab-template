@@ -31,7 +31,7 @@ talosctl gen config <name-of-cluster> <DNS-record-for-API-server> --config-patch
 
 You can skip this section if you just want the ISO image, but this covers settings needed for the image factory.
 
-Starting URL: https://factory.talos.dev
+Starting URL: <https://factory.talos.dev>
 
 1. Bare-metal Machine
 1. Latest Version
@@ -46,7 +46,7 @@ SecureBoot ISO link is available for download
 
 ### Proxmox
 
-ISO can be found here: https://factory.talos.dev/image/5f160562e602fff1bfd479d5ae344944db70454de105de890f8f37438a2fb54a/v1.9.3/metal-amd64-secureboot.iso
+ISO can be found here: <https://factory.talos.dev/image/5f160562e602fff1bfd479d5ae344944db70454de105de890f8f37438a2fb54a/v1.9.3/metal-amd64-secureboot.iso>
 
 Recommended VM Specs:
 

@@ -27,7 +27,24 @@ talosctl gen config <name-of-cluster> <DNS-record-for-API-server> --config-patch
 
 ## Setup Virtual Machines
 
-ISO can be found here: https://factory.talos.dev/?arch=amd64&cmdline-set=true&extensions=-&extensions=siderolabs%2Fqemu-guest-agent&platform=metal&secureboot=true&target=metal&version=1.8.2
+### Building the ISO
+
+You can skip this section if you just want the ISO image, but this covers settings needed for the image factory.
+
+Starting URL: https://factory.talos.dev
+
+1. Bare-metal Machine
+1. Latest Version
+1. amd64
+1. Toggle Secureboot on
+1. Toggle `siderolabs/qemu-guest-agent` on
+1. `-lockdown lockdown=integrity` in the kernel parameters
+
+SecureBoot ISO link is available for download
+
+### Proxmox
+
+ISO can be found here: https://factory.talos.dev/image/5f160562e602fff1bfd479d5ae344944db70454de105de890f8f37438a2fb54a/v1.9.3/metal-amd64-secureboot.iso
 
 Recommended VM Specs:
 

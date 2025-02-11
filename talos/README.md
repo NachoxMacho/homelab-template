@@ -39,6 +39,8 @@ Starting URL: https://factory.talos.dev
 1. Toggle Secureboot on
 1. Toggle `siderolabs/qemu-guest-agent` on
 1. `-lockdown lockdown=integrity` in the kernel parameters
+    - These are needed to allow eBPF access to the node, otherwise because we are in secureboot lockdown will be set to confidentiality.
+    - See man kernel_lockdown(7) for more information.
 
 SecureBoot ISO link is available for download
 

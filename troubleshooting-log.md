@@ -2,6 +2,47 @@
 
 This is a log of various problems I have run into, their symptoms, how I diagnosed them, and how I fixed them.
 
+## 2025-02-09
+
+I've been unable to run the falco helm chart, with numerous pods entering a crashloopbackoff upon launch.
+This made the system as a whole unusable on my cluster.
+
+### Symptoms
+
+- Some, not all Falco pods entered a crashloopbackoff upon launch, others were succeeding.
+    - Seems to be related to specific nodes as 6 consistently work while the others do not.
+    - Pod logs don't have an information about errors on initial review.
+
+### Diagnosis
+
+Enabled more logging for the pod logs to attempt to see what the problem is.
+Following values were added to the helm chart:
+```yaml
+tty: true
+
+falco:
+  libs_logger:
+    enabled: true
+```
+
+That then produced the following error message:
+
+```
+<timestamp> [libs]: libpman: failed to load BPF object (errno: 22 | message: Invalid argument)
+```
+
+After diving into issues on the falco github, found this issue: <https://github.com/falcosecurity/falco/issues/3323>.
+Realized that's similar, but different as it's related to memory limits, while this is dealing with an Invalid argument.
+
+Checking Node logs through the console, I saw messages of like the following:
+
+```
+<timestamp> Lockdown: falco: use of bpf to read kernel RAM is restricted; see man kernel_lockdown.7
+```
+
+
+
+
 ## 2024-11-17 ETCD leader election lost pod restarts
 
 I've been running into issues with etcd averaging at least 1000 leader elections per day.

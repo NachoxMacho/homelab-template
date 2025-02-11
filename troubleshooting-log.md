@@ -102,3 +102,21 @@ Pods also stopped restarting due to leader election loss, and the total leader e
 
 ![Graph showing commit latency dropping after the change](./images/2024-11-17-etcd-commit-latency-fix.png "Commit latency graph")
 
+
+## Current Outstanding issues
+
+### Metallb frr container restarts
+
+### Symptoms
+
+- frr container for metallb-speaker pods is restarting frequently
+    - restarting upwards of 40 times per hour, isolated to just the frr container
+    - promql query for data: `sum(delta(kube_pod_container_status_restarts_total{pod=~"metallb-speaker-.*"}[1h])) by (container) > 0`
+    - ![Graph showing frr container restarts](./images/2025-02-11-pod-restarts-frr-symptom.png)
+- container restarts seem to be at least partially isolated to certain nodes.
+    - promql query for data: `sum(sum(delta(kube_pod_container_status_restarts_total{pod=~"metallb-speaker-.*"}[1d])) by (pod) * on(pod) group_left(node) max(kube_pod_info{pod=~"metallb-speaker-.*"}) by (pod,node)) by (node) > 0`
+    - ![Graph showing metallb-speaker pod restarts by node](./images/2025-02-11-pod-restarts-by-node-symptom.png)
+
+### Diagnosis
+
+

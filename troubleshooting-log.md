@@ -40,7 +40,20 @@ Checking Node logs through the console, I saw messages of like the following:
 <timestamp> Lockdown: falco: use of bpf to read kernel RAM is restricted; see man kernel_lockdown.7
 ```
 
+That lead me to researching kernel lockdown, which sounded like the problem as I had noticied the main difference between the good and bad nodes was secureboot.
+In kernel lockdown man page, it explains that booting in secureboot switches the lockdown to confidentiality automatically.
 
+Found a PR, <https://github.com/siderolabs/talos/pull/8535> which was attempting to force lockdown back to integrity on builds.
+The recommendation in the PR was to instead use the kernel parameters when building the image in the factory.
+
+### Fix
+
+Add kernel parameters to talos image to set lockdown to integrity level.
+```
+-lockdown lockdown=integrity
+```
+
+Upgrade all nodes to new image, re-deploy falco.
 
 
 ## 2024-11-17 ETCD leader election lost pod restarts

@@ -3,6 +3,7 @@
 This is a log of various problems I have run into, their symptoms, how I diagnosed them, and how I fixed them.
 
 ## 2025-02-09
+## 2025-02-09 Falco install failing
 
 I've been unable to run the falco helm chart, with numerous pods entering a crashloopbackoff upon launch.
 This made the system as a whole unusable on my cluster.

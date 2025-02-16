@@ -181,6 +181,7 @@ talosctl apply-config --nodes <IP-of-worker-VM> --file tmp/worker.yaml --insecur
 Cilium is a CNI that provides networking for Kubernetes.
 You can add Cilium to your cluster by running the following command.
 This is needed to allow your nodes to communicate with each other.
+For more information, configuration options, and explanations refer to the [README](../cilium/README.md) in the cilium folder.
 
 ```bash
 helm repo add cilium https://helm.cilium.io/

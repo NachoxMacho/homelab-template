@@ -2,7 +2,28 @@
 
 This is a log of various problems I have run into, their symptoms, how I diagnosed them, and how I fixed them.
 
-## 2025-02-09
+### 2025-02-15 Metallb frr container restarts
+
+### Symptoms
+
+- frr container for metallb-speaker pods is restarting frequently
+    - restarting upwards of 40 times per hour, isolated to just the frr container
+    - promql query for data: `sum(delta(kube_pod_container_status_restarts_total{pod=~"metallb-speaker-.*"}[1h])) by (container) > 0`
+    - ![Graph showing frr container restarts](./images/2025-02-11-pod-restarts-frr-symptom.png)
+- container restarts seem to be at least partially isolated to certain nodes.
+    - promql query for data: `sum(sum(delta(kube_pod_container_status_restarts_total{pod=~"metallb-speaker-.*"}[1d])) by (pod) * on(pod) group_left(node) max(kube_pod_info{pod=~"metallb-speaker-.*"}) by (pod,node)) by (node) > 0`
+    - ![Graph showing metallb-speaker pod restarts by node](./images/2025-02-11-pod-restarts-by-node-symptom.png)
+
+### Diagnosis
+
+- Nodes affected were under high utilization, usually close to CPU pressure, around 1900m/2000m or more.
+- After pods moved around to different nodes the affected metallb pods would change.
+
+### Fix
+
+- Setting Metallb to a priority class of system-node-critical and increasing requests and limits for cpu seems to have resolved the issue.
+    - I believe this is due to pods not starting fast enough. Might be able to get away with smaller requests if I can figure out a way to increase the startup timeout.
+
 ## 2025-02-09 Falco install failing
 
 I've been unable to run the falco helm chart, with numerous pods entering a crashloopbackoff upon launch.
@@ -105,19 +126,4 @@ Pods also stopped restarting due to leader election loss, and the total leader e
 
 
 ## Current Outstanding issues
-
-### Metallb frr container restarts
-
-### Symptoms
-
-- frr container for metallb-speaker pods is restarting frequently
-    - restarting upwards of 40 times per hour, isolated to just the frr container
-    - promql query for data: `sum(delta(kube_pod_container_status_restarts_total{pod=~"metallb-speaker-.*"}[1h])) by (container) > 0`
-    - ![Graph showing frr container restarts](./images/2025-02-11-pod-restarts-frr-symptom.png)
-- container restarts seem to be at least partially isolated to certain nodes.
-    - promql query for data: `sum(sum(delta(kube_pod_container_status_restarts_total{pod=~"metallb-speaker-.*"}[1d])) by (pod) * on(pod) group_left(node) max(kube_pod_info{pod=~"metallb-speaker-.*"}) by (pod,node)) by (node) > 0`
-    - ![Graph showing metallb-speaker pod restarts by node](./images/2025-02-11-pod-restarts-by-node-symptom.png)
-
-### Diagnosis
-
 

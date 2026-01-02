@@ -36,6 +36,8 @@ You can do this by running the following command:
 kubectl apply -f namespace.yaml
 ```
 
+This is important to run because it will make sure the privileged labels are applied to the pods, which allows them to run with the elevated permissions.
+
 ### Installing the metallb helm chart
 
 Once you have configured the `ip-assignment.yaml` and `values.yaml` files, you can install the metallb using the following commands:

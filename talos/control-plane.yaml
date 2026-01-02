@@ -37,7 +37,7 @@ machine:
     # The following image is create from the talos factory website, and provides the following features:
     #   - Secure boot support
     #   - QEMU Guest Agent support
-    image: factory.talos.dev/installer-secureboot/ce4c980550dd2ab1b17bbf2b08801c7eb59418eafe8f279833297925d67c7515:v1.8.2
+    image: factory.talos.dev/nocloud-installer-secureboot/f022d26fd834bacec345250561ff79cd439e7db3073cf970581db8ad452d5cc2:v1.11.6
     wipe: true
   time:
     # If you prefer different time sources, you can change the NTP servers here.

@@ -1,36 +1,63 @@
+priorityClassName: system-node-critical
+
 resources:
 #   limits:
 #     cpu: 4000m
 #     memory: 4Gi
   requests:
-    cpu: 50m
+    cpu: 200m
     memory: 256Mi
 cgroup:
   autoMount:
     enabled: false
+    # resources:
+    #   requests:
+    #     memory: 1Gi
+    #     cpu: 1
+    #   limits:
+    #     memory: 1Gi
+    #     cpu: 1
   hostRoot: /sys/fs/cgroup
+ingressController:
+  enabled: true
+  loadbalancerMode: shared
+  enforceHttps: false
 hubble:
   enabled: true
+  tls:
+    auto:
+      method: cronJob
   # metrics:
   #   enabled:
-  #     - dns:query;ignoreAAAA
+  #     - dns
   #     - drop
   #     - tcp
   #     - flow
   #     - icmp
   #     - http
-    # serviceMonitor:
-    #   enabled: true
+  #     - port-distribution
+  #   serviceMonitor:
+  #     enabled: true
+  #     relabelings:
+  #       - sourceLabels:
+  #           - __meta_kubernetes_pod_node_name
+  #         targetLabel: node
+  #         replacement: ${1}
+  #         action: replace
     # dashboards:
     #   enabled: true
     #   annotations:
     #     grafana.robowens.dev/folder: hubble
   relay:
     enabled: true
-  #   prometheus:
-  #     enabled: true
-  #     serviceMonitor:
-  #       enabled: true
+    resources:
+      requests:
+        cpu: 5m
+        memory: 32Mi
+    # prometheus:
+    #   enabled: true
+    #   serviceMonitor:
+    #     enabled: true
   ui:
     enabled: true
     frontend:
@@ -49,7 +76,7 @@ hubble:
 
     ingress:
       annotations: {}
-      className: nginx
+      className: cilium
       enabled: true
       hosts:
       - hubble.example.com
@@ -67,6 +94,10 @@ cluster:
   name: production
 operator:
   replicas: 1
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
   # prometheus:
   #   enabled: true
   #   serviceMonitor:
@@ -97,16 +128,38 @@ securityContext:
 #   enabled: true
 #   serviceMonitor:
 #     enabled: true
+#     relabelings:
+#       - sourceLabels:
+#           - __meta_kubernetes_pod_node_name
+#         targetLabel: node
+#         replacement: ${1}
+#         action: replace
 # dashboards:
 #   enabled: true
 #   annotations:
-#     grafana.robowens.dev/folder: cilium
-# envoy:
-#   prometheus:
-#     enabled: true
-#     serviceMonitor:
-#       enabled: true
-kubeProxyReplacement: false
-# k8sServiceHost: "talos.kubernetes.justnacho.com"
+#     grafana.example.com/folder: cilium
+envoy:
+  resources:
+    requests:
+      cpu: 10m
+      memory: 32Mi
+  # prometheus:
+  #   enabled: true
+  #   serviceMonitor:
+  #     enabled: true
+  #     relabelings:
+  #       - sourceLabels:
+  #           - __meta_kubernetes_pod_node_name
+  #         targetLabel: node
+  #         replacement: ${1}
+  #         action: replace
+l2announcements:
+  enabled: true
+kubeProxyReplacement: true
+k8sServiceHost: localhost
+# k8sServiceHost: "talos.example.com"
 k8sServicePort: "7445"
+k8sClientRateLimit:
+  qps: 1000
+  burst: 2000
 

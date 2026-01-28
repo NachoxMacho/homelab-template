@@ -28,9 +28,11 @@ Start by installing the talos CLI: https://www.talos.dev/v1.8/talos-guides/insta
 
 Then follow the instructions located in the [talos folder](https://github.com/NachoxMacho/homelab-template/tree/main/talos).
 
-### Metallb
+### Cilium
 
-### Nginx-Ingress
+The first step after setting up the talos clusters is to install a Container Network Interface (CNI).
+
+For instructions on installation [start in the Cilium folder](https://github.com/NachoxMacho/homelab-template/tree/main/cilium).
 
 ### Ceph-CSI
 
